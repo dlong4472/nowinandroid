@@ -382,7 +382,7 @@ private fun SingleTopicButton(
     isSelected: Boolean,
     onClick: (String, Boolean) -> Unit,
 ) = trace("SingleTopicButton") {
-    Surface(
+    Surface(// 当你想为一组Composable函数提供统一的背景颜色或形状时，当你想要处理点击事件。当你想要创建一个卡片或者其他具有阴影的元素
         modifier = Modifier
             .width(312.dp)
             .heightIn(min = 56.dp),
@@ -470,7 +470,7 @@ private fun DeepLinkEffect(
     val context = LocalContext.current
     val backgroundColor = MaterialTheme.colorScheme.background.toArgb()
 
-    LaunchedEffect(userNewsResource) {
+    LaunchedEffect(userNewsResource) {// LaunchedEffect 是 Jetpack Compose 中的一个函数，它用于在 Composable 函数中启动协程。这个函数接收一个或多个键（key）和一个挂起的 lambda 表达式。当提供的键在重组过程中发生变化时，LaunchedEffect 会取消并重新启动 lambda 表达式中的协程
         if (userNewsResource == null) return@LaunchedEffect
         if (!userNewsResource.hasBeenViewed) onDeepLinkOpened(userNewsResource.id)
 

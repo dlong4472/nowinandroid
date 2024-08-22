@@ -46,6 +46,10 @@ import kotlinx.coroutines.withContext
 /**
  * Syncs the data layer by delegating to the appropriate repository instances with
  * sync functionality.
+ * @AssistedInject是Dagger的一个扩展库AssistedInject提供的注解，它用于解决一些依赖注入的特殊情况，
+ * 即当某些参数既需要从依赖注入框架获取，又需要从手动传递获取时。
+ * @AssistedInject只能用于构造函数，它表示这个构造函数的一部分参数将由依赖注入框架提供，一部分参数将由手动传递提供。
+ * 这些手动传递的参数需要使用@Assisted注解。
  */
 @HiltWorker
 internal class SyncWorker @AssistedInject constructor(

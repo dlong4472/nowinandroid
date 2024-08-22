@@ -58,7 +58,7 @@ internal class TimeZoneBroadcastMonitor @Inject constructor(
     @ApplicationScope appScope: CoroutineScope,
     @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
 ) : TimeZoneMonitor {
-
+    // 如果你需要处理一次性的异步事件，那么 Flow 可能是一个好选择。如果你需要处理多个收集器共享的状态或事件，那么 SharedFlow 可能更适合
     override val currentTimeZone: SharedFlow<TimeZone> =
         callbackFlow {
             // Send the default time zone first.

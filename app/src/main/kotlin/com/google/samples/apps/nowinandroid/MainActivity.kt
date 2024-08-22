@@ -78,20 +78,20 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var userNewsResourceRepository: UserNewsResourceRepository
 
-    val viewModel: MainActivityViewModel by viewModels()
+    val viewModel: MainActivityViewModel by viewModels() // 通过 viewModels() 委托函数实现的，这是 Android KTX 库提供的一个函数，用于在 Activity 或 Fragment 中方便地初始化 ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
 
-        var uiState: MainActivityUiState by mutableStateOf(Loading)
+        var uiState: MainActivityUiState by mutableStateOf(Loading)//Kotlin 的委托属性语法。mutableStateOf(Loading) 创建了一个可观察的状态，其初始值为 Loading。当这个状态变化时，所有观察这个状态的 Compose UI 都会重新组合，以反映新的状态
 
         // Update the uiState
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+        lifecycleScope.launch {// lifecycleScope 中启动一个新的协程。lifecycleScope 是一个 CoroutineScope，它与组件的生命周期绑定。当组件（如 Activity 或 Fragment）被销毁时，所有在该作用域中的协程都会被取消
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {//只有当生命周期状态至少为 STARTED 时，才会收集 viewModel.uiState 流中的数据
                 viewModel.uiState
-                    .onEach { uiState = it }
-                    .collect()
+                    .onEach { uiState = it } // 每次 viewModel.uiState 流发出新的数据时执行的操作
+                    .collect()//终端操作，用于启动流的收集。在这个例子中，它启动了 viewModel.uiState 流的收集
             }
         }
 

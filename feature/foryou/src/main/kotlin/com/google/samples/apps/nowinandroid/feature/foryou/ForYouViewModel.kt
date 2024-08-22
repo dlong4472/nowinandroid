@@ -58,7 +58,7 @@ class ForYouViewModel @Inject constructor(
         key = LINKED_NEWS_RESOURCE_ID,
         null,
     )
-        .flatMapLatest { newsResourceId ->
+        .flatMapLatest { newsResourceId ->// ，flatMapLatest 可以用于在处理异步操作时，确保总是处理最新的数据，而忽略过时的数据。例如，在你的代码中，flatMapLatest 用于确保总是处理最新的用户数据
             if (newsResourceId == null) {
                 flowOf(emptyList())
             } else {
@@ -69,8 +69,8 @@ class ForYouViewModel @Inject constructor(
                 )
             }
         }
-        .map { it.firstOrNull() }
-        .stateIn(
+        .map { it.firstOrNull() }// 这是一个转换操作符，它接收一个 lambda 函数作为参数，这个函数会应用于上游 Flow 发射的每一个元素。map 会将 lambda 函数的返回值作为新的元素发射给下游。例如，如果你有一个 Flow<Int>，你可以使用 map 将每个整数转换为它的字符串表示。
+        .stateIn(// stateIn：这是一个共享操作符，它将一个 Flow 转换为一个 StateFlow。StateFlow 是一种特殊的 Flow，它总是有一个当前的值，可以通过 value 属性获取。当新的元素发射给 StateFlow 时，value 属性会更新为新的元素。stateIn 还接收一个 CoroutineScope，一个启动策略（例如 SharingStarted.Eagerly 或 SharingStarted.WhileSubscribed()），以及一个初始值。
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = null,
